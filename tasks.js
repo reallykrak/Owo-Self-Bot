@@ -2,6 +2,18 @@ const chalk = require('chalk');
 const randomWords = require("random-words");
 const config = require('./config.json');
 
+// Wonderwords taklidi (aynı isimle çalışır)
+class RandomSentence {
+    sentence() {
+        // 3–10 kelimelik rastgele cümle oluşturur
+        const words = randomWords({ min: 3, max: 10 });
+        // İlk harfi büyük yap, sonuna nokta koy
+        const s = words.join(" ");
+        return s.charAt(0).toUpperCase() + s.slice(1) + ".";
+    }
+}
+const Wonderwords = { RandomSentence }; // orijinal API'yi koruyoruz
+
 const s = new Wonderwords.RandomSentence();
 let intervals = {};
 let state = {}; // index.js'ten gelen dinamik veriler için (örn: owoChannelId)
