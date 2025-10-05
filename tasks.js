@@ -1,19 +1,6 @@
 const chalk = require('chalk');
-const randomWords = require("random-words");
 const config = require('./config.json');
 
-// Wonderwords taklidi (random-words ile uyumlu)
-class RandomSentence {
-    sentence() {
-        // 3–10 kelimelik rastgele cümle oluşturur
-        const wordsArray = randomWords({ exactly: randomRange(3, 10) }); // exactly parametresi doğru kullanım
-        const sentence = wordsArray.join(" ");
-        return sentence.charAt(0).toUpperCase() + sentence.slice(1) + ".";
-    }
-}
-const Wonderwords = { RandomSentence }; // API'yi koruyoruz
-
-const s = new Wonderwords.RandomSentence();
 let intervals = {};
 let state = {}; // index.js'ten gelen dinamik veriler için (örn: owoChannelId)
 
@@ -33,16 +20,16 @@ const tasks = {
     },
     autolevelup: async (client) => {
         const channel = await client.channels.fetch(state.owoChannelId);
-        const xpMessage = randomChoice([`owo`, `UwUUwU`, `uwu`, s.sentence()]);
+        // Sabit mesaj, rastgele kelime yok
         await channel.sendTyping();
         await sleep(1500);
-        await channel.send(xpMessage);
+        await channel.send("owo"); 
     },
     autopray: async (client) => {
         const channel = await client.channels.fetch(state.owoChannelId);
         await channel.sendTyping();
         await sleep(1500);
-        await channel.send(`owo pray`);
+        await channel.send("owo pray");
     },
     autosell: async (client) => {
         const channel = await client.channels.fetch(state.owoChannelId);
