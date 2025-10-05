@@ -1,5 +1,5 @@
 const chalk = require('chalk');
-const Wonderwords = require('wonderwords');
+const randomWords = require("random-words");
 const config = require('./config.json');
 
 const s = new Wonderwords.RandomSentence();
