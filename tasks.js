@@ -2,17 +2,16 @@ const chalk = require('chalk');
 const randomWords = require("random-words");
 const config = require('./config.json');
 
-// Wonderwords taklidi (aynı isimle çalışır)
+// Wonderwords taklidi (random-words ile uyumlu)
 class RandomSentence {
     sentence() {
         // 3–10 kelimelik rastgele cümle oluşturur
-        const words = randomWords({ min: 3, max: 10 });
-        // İlk harfi büyük yap, sonuna nokta koy
-        const s = words.join(" ");
-        return s.charAt(0).toUpperCase() + s.slice(1) + ".";
+        const wordsArray = randomWords({ exactly: randomRange(3, 10) }); // exactly parametresi doğru kullanım
+        const sentence = wordsArray.join(" ");
+        return sentence.charAt(0).toUpperCase() + sentence.slice(1) + ".";
     }
 }
-const Wonderwords = { RandomSentence }; // orijinal API'yi koruyoruz
+const Wonderwords = { RandomSentence }; // API'yi koruyoruz
 
 const s = new Wonderwords.RandomSentence();
 let intervals = {};
@@ -22,7 +21,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 const randomRange = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const randomChoice = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-// HER BİR GÖREVİN MANTIĞI
+// GÖREVLER
 const tasks = {
     autohunt: async (client) => {
         const channel = await client.channels.fetch(state.owoChannelId);
@@ -68,6 +67,7 @@ const tasks = {
     }
 };
 
+// GÖREV ZAMANLAYICISI
 const taskConfig = {
     autohunt: { min: 16, max: 45, unit: 'seconds' },
     autolevelup: { min: 15, max: 60, unit: 'seconds' },
@@ -79,7 +79,6 @@ const taskConfig = {
     channel_change: { min: config.settings.channel_change_interval[0], max: config.settings.channel_change_interval[1], unit: 'minutes' }
 };
 
-// GÖREV YÖNETİCİSİ
 function startAllTasks(client, initialState) {
     state = initialState;
     console.log(chalk.greenBright('[Yönetici] Tüm aktif görevler başlatılıyor...'));
@@ -90,7 +89,7 @@ function startAllTasks(client, initialState) {
             const maxMs = settings.unit === 'seconds' ? settings.max * 1000 : settings.max * 60000;
 
             const runTask = () => tasks[taskName](client);
-            runTask(); // İlk başta bir kez çalıştır
+            runTask(); // İlk çalıştırma
 
             intervals[taskName] = setInterval(runTask, randomRange(minMs, maxMs));
             console.log(chalk.green(`- ${taskName} görevi aktif.`));
