@@ -1,0 +1,17 @@
+{
+  "name": "advanced-auto-owo-js",
+  "version": "1.0.0",
+  "description": "Advanced Auto OwO bot written in JavaScript.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "TheAxes (Rewritten by AI)",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "chalk": "^4.1.2",
+    "discord.js-selfbot-v13": "^3.1.4",
+    "wonderwords": "^1.0.1"
+  }
+}
